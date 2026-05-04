@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kostumet Popullore - Final Boss</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;scroll-behavior:smooth}
+body{
+  background:linear-gradient(135deg,#0b1020,#3b0d11,#0b1020);
+  background-size:300% 300%;
+  animation:bg 12s ease infinite;
+  color:#fff;
+  transition:.35s;
+}
+@keyframes bg{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+body.light{
+  background:#f3f3f3;
+  color:#111;
+}
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:14px;
+  backdrop-filter:blur(10px);
+  background:rgba(0,0,0,.35);
+  display:flex;
+  justify-content:center;
+  gap:22px;
+  z-index:1000;
+}
+nav a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
+body.light nav a{color:#111}
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+.hero h1{
+  font-size:clamp(2.5rem,6vw,5rem);
+  background:linear-gradient(90deg,#ffd700,#ff5f6d,#ffd700);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.hero p{
+  max-width:700px;
+  margin-top:12px;
+  opacity:.9;
+}
+.btn{
+  margin-top:20px;
+  padding:12px 22px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:700;
+  background:#ffd700;
+}
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:80px 20px;
+}
+.card{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  padding:22px;
+  margin:18px 0;
+  backdrop-filter:blur(8px);
+  transition:.3s;
+}
+.card:hover{
+  transform:translateY(-4px);
+}
+body.light .card{
+  background:white;
+  border:1px solid #ddd;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+.gallery img{
+  width:100%;
+  border-radius:16px;
+  transition:.35s;
+}
+.gallery img:hover{
+  transform:scale(1.03);
+}
+.fact{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,215,0,.15);
+}
+.map{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+.map button{
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:700;
+}
+.quiz-btn{
+  margin:6px 6px 0 0;
+  padding:10px 14px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+}
+.progress{
+  height:10px;
+  background:rgba(255,255,255,.15);
+  border-radius:999px;
+  margin-top:14px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  width:0%;
+  background:#ffd700;
+  transition:.3s;
+}
+.controls{
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.controls button{
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:18px;
+}
+footer{
+  text-align:center;
+  padding:30px 20px;
+  opacity:.8;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hyrje">Hyrje</a>
+  <a href="#harta">Rajonet</a>
+  <a href="#galeri">Galeri</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
+<div class="hero">
+  <h1 id="title">Kostumet Popullore</h1>
+  <p id="subtitle">Trashëgimia e Shqipërisë së Mesme, me ngjyra, motive dhe histori që kalojnë nga brezi në brez.</p>
+  <button class="btn" onclick="document.getElementById('hyrje').scrollIntoView()">Eksploro</button>
+</div>
+
+<section id="hyrje">
+  <div class="card">
+    <h2>Fakte të shpejta</h2>
+    <p id="factText">Kostumet e Shqipërisë së Mesme njihen për ekuilibrin mes thjeshtësisë dhe zbukurimit të hollë.</p>
+    <div class="fact" id="randomFact">Kliko më poshtë për një fakt tjetër.</div>
+    <button class="btn" onclick="nextFact()">Fakt tjetër</button>
+  </div>
+</section>
+
+<section id="harta">
+  <div class="card">
+    <h2>Rajone interaktive</h2>
+    <p>Kliko një zonë për të parë tiparet e kostumit.</p>
+
+    <div class="map">
+      <button onclick="region('Tiranë')">Tiranë</button>
+      <button onclick="region('Elbasan')">Elbasan</button>
+      <button onclick="region('Durrës')">Durrës</button>
+    </div>
+
+    <div class="fact" id="regionInfo">Zgjidh një rajon.</div>
+  </div>
+</section>
+
+<section id="galeri">
+  <div class="card">
+    <h2>Galeri</h2>
+    <div class="grid gallery">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Albanian_traditional_clothing.jpg" alt="">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Albanian_woman_traditional_dress.jpg" alt="">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Traditional_Albanian_clothes.jpg" alt="">
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="card">
+    <h2>Quiz final</h2>
+    <p id="question"></p>
+    <div id="answers"></div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="fact" id="scoreBox">Score i fundit: <span id="savedScore">0</span></div>
+  </div>
+</section>
+
+<footer>
+  © 2026 — FINAL BOSS
+</footer>
+
+<div class="controls">
+  <button onclick="toggleMode()">🌙</button>
+  <button onclick="toggleLang()">🌐</button>
+</div>
+
+<script>
+const facts = [
+  "Ka dhjetëra variante vendore të kostumeve shqiptare.",
+  "Qëndisjet shpesh tregonin statusin shoqësor.",
+  "Ngjyrat e forta përdoreshin sidomos në veshjet festive.",
+  "Qeleshja është një nga simbolet më të njohura të veshjes mashkullore."
+];
+
+let factIndex = 0;
+function nextFact(){
+  factIndex = (factIndex + 1) % facts.length;
+  document.getElementById("randomFact").innerText = facts[factIndex];
+}
+
+function region(name){
+  const data = {
+    "Tiranë":"Në zonën e Tiranës dallohen jelekët e punuar dhe ngjyrat e balancuara.",
+    "Elbasan":"Elbasani njihet për motive më të imëta dhe elemente dekorative më të pasura.",
+    "Durrës":"Në Durrës shihen ndikime qytetare dhe përdorim më i theksuar i pëlhurave elegante."
+  };
+  document.getElementById("regionInfo").innerText = data[name];
+}
+
+function toggleMode(){
+  document.body.classList.toggle("light");
+}
+
+let lang = "sq";
+function toggleLang(){
+  lang = lang === "sq" ? "en" : "sq";
+  document.getElementById("title").innerText = lang === "sq" ? "Kostumet Popullore" : "Traditional Costumes";
+  document.getElementById("subtitle").innerText = lang === "sq"
+    ? "Trashëgimia e Shqipërisë së Mesme, me ngjyra, motive dhe histori që kalojnë nga brezi në brez."
+    : "The heritage of Central Albania, with colors, motifs and stories passed across generations.";
+}
+
+const quiz = [
+  {
+    q:"Cili element lidhet me kostumin mashkullor?",
+    a:["Tirqit","Kurora","Manteli"],
+    c:0
+  },
+  {
+    q:"Kostumet popullore përdoren shpesh në?",
+    a:["Dasma","Ndeshje futbolli","Kinema"],
+    c:0
+  },
+  {
+    q:"Çfarë dallon kostumin e femrave?",
+    a:["Qëndisjet","Helmetat","Butonat metalikë"],
+    c:0
+  },
+  {
+    q:"Cila zonë është pjesë e Shqipërisë së Mesme?",
+    a:["Elbasan","Kukës","Gjirokastër"],
+    c:0
+  },
+  {
+    q:"Qeleshja është zakonisht pjesë e?",
+    a:["Veshjes mashkullore","Veshjes së fëmijëve","Veshjes sportive"],
+    c:0
+  }
+];
+
+let i = 0;
+let score = 0;
+document.getElementById("savedScore").innerText = localStorage.getItem("kostumScore") || 0;
+
+function renderQuestion(){
+  if(i >= quiz.length){
+    document.getElementById("question").innerText = "Përfundove! Score: " + score + "/" + quiz.length;
+    document.getElementById("answers").innerHTML = "";
+    localStorage.setItem("kostumScore", score);
+    document.getElementById("savedScore").innerText = score;
+    return;
+  }
+
+  document.getElementById("question").innerText = quiz[i].q;
+  const answers = document.getElementById("answers");
+  answers.innerHTML = "";
+
+  quiz[i].a.forEach((ans, idx) => {
+    const b = document.createElement("button");
+    b.className = "quiz-btn";
+    b.innerText = ans;
+    b.onclick = () => answer(idx);
+    answers.appendChild(b);
+  });
+
+  document.getElementById("bar").style.width = ((i / quiz.length) * 100) + "%";
+}
+
+function answer(idx){
+  if(idx === quiz[i].c) score++;
+  i++;
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+
+</body>
+</html>
